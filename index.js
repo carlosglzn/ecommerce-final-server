@@ -17,7 +17,7 @@ app.use(express.json({extended: true}))
 
 
 app.use('/api/user', require('./routes/user'))
-
+app.use('/api/auth', require('./routes/auth'))
 
 
 // 4. SERVER
