@@ -16,7 +16,7 @@ app.use(express.json({extended: true}))
 // 3. ROUTES
 
 
-app.use('/api', require('./routes/user'))
+app.use('/api/user', require('./routes/user'))
 
 
 
