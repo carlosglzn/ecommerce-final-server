@@ -15,9 +15,14 @@ app.use(express.json({extended: true}))
 
 // 3. ROUTES
 
-
 app.use('/api/user', require('./routes/user'))
 app.use('/api/auth', require('./routes/auth'))
+
+// TEST
+
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
 
 
 // 4. SERVER
