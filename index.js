@@ -1,9 +1,9 @@
 // 1. IMPORTS
 
-const express = require('express')
-const app = express()
-const cors = require('cors')
-const connectDB = require('./config/db')
+const express       = require('express')
+const app           = express()
+const cors          = require('cors')
+const connectDB     = require('./config/db')
 
 
 // 2. MIDDLEWARES
@@ -15,20 +15,10 @@ app.use(express.json({extended: true}))
 
 // 3. ROUTES
 
-app.get('/', (req, res) => {
 
-    res.status(200).json({
-        message: 'Hello from server'
-    })
+app.use('/api', require('./routes/user'))
 
-})
 
-app.post('/data', (req, res) => {
-
-    res.status(200).json({
-        message: req.body
-    })
-})
 
 // 4. SERVER
 
