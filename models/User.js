@@ -6,12 +6,14 @@ const userSchema = new mongoose.Schema({
     firstName : {
         type: String,
         trim: true,
+        required: true,
         min: 3,
         max: 20
     },
     lastName: {
         type: String,
         trim: true,
+        requires: true,
         min: 3,
         max: 20
     },
@@ -54,8 +56,13 @@ userSchema.virtual('password')
     this.hash_password = bcrypt.hashSync(password, 10)
 })
 
+userSchema.virtual('fullName')
+.get(function(){
+    return `${this.firstName} ${this.lastName}`
+})
+
 userSchema.methods = {
-    authenticate: function() {
+    authenticate: function(password) {
         return bcrypt.compareSync(password, this.hash_password)
     }
 }

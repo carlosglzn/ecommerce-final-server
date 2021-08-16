@@ -1,15 +1,14 @@
-const express           = require('express')
-const router            = express.Router()
-const authController    = require('./../controllers/authController')
-const auth              = require('./../middlewares/auth')
+const express                   = require('express')
+const { signup, signin }        = require('../controllers/authController')
+const router                    = express.Router()
 
 
-// LOGIN
 
-router.post('/login', authController.loginUser)
+router.post('/signup', signup)
+router.post('/signin', signin)
 
-// VERIFY SESSION
 
-router.get('/', auth, authController.verifyingToken)
+
+
 
 module.exports = router

@@ -15,8 +15,8 @@ app.use(express.json({extended: true}))
 
 // 3. ROUTES
 
-const userRoutes = require('./routes/user')
-app.use('/api', userRoutes)
+const authRoutes = require('./routes/auth')
+app.use('/api', authRoutes)
 
 
 
