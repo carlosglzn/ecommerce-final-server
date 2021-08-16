@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const bcrypt   = require('bcryptjs')
 
 const userSchema = new mongoose.Schema({
 
@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        unique: true,
         lowercase: true
     },
     email: {
@@ -28,7 +29,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         lowercase: true
     },
-    password: {
+    hash_password: {
         type: String,
         required: true
     },
@@ -48,6 +49,16 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
+userSchema.virtual('password')
+.set(function(password){
+    this.hash_password = bcrypt.hashSync(password, 10)
+})
+
+userSchema.methods = {
+    authenticate: function() {
+        return bcrypt.compareSync(password, this.hash_password)
+    }
+}
 
 const User = mongoose.model('User', userSchema)
 
