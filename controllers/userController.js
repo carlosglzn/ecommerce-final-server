@@ -1,66 +1,33 @@
-const User                     = require('../models/User')
-const bcryptjs                 = require('bcryptjs')
-const { validationResult }     = require('express-validator')
-const jwt                      = require('jsonwebtoken')
+const User              = require('../models/User')
 
-exports.signup = async (req, res) => {
-
-    const errors = validationResult(req)
-
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            msg: errors.array()
+exports.signup = (req, res) => {
+    User.findOne({ email: req.body.email })
+    .exec((error, user) => {
+        if(user ) return res.status(400).json({
+            message: 'User already registered'
         })
-    }
-
-    const { username, email, password } = req.body
-
-    try {
-
-        // HASH PASSWORD
-
-        const salt = await bcryptjs.genSalt(10)
-
-        const hashedPassword = await bcryptjs.hash(password, salt)
-
-        // CREATE USER
-
-        const responseDB = await User.create({
+        
+        const {
             username,
             email,
-            password: hashedPassword
-        })
+            password
+        } = req.body
 
-        // CREATE JWT
+        const _user = new User({ username, email, password })
 
-        const payload = {
-            user: {
-                id: responseDB._id
-            }
-        }
-
-        // SIGN JWT
-
-        jwt.sign(
-            payload,
-            process.env.SECRET,
-            {
-                expiresIn: 360000
-            },
-            (error, token) => {
-                if (error) throw error
-
-                res.json({
-                    token
+        _user.save((error, data) => {
+            if(error) {
+                return res.json({
+                    message: 'Something went'
                 })
             }
-        )
-
-    } catch(error) {
-
-        return res.status(400).json({
-            msg: error
+    
+            if(data) {
+                return res.status(201).json({
+                    message: 'User created Sucessfully'
+                })
+            }
+    
         })
-    }
-
+    })
 }
