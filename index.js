@@ -18,6 +18,9 @@ app.use(express.json({extended: true}))
 const authRoutes = require('./routes/auth')
 app.use('/api', authRoutes)
 
+const adminRoutes = require('./routes/admin/auth')
+app.use('/api', adminRoutes)
+
 
 
 app.get('/', (req, res) => {
