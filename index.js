@@ -15,10 +15,10 @@ app.use(express.json({extended: true}))
 
 // 3. ROUTES
 
-app.use('/api/user', require('./routes/user'))
-app.use('/api/auth', require('./routes/auth'))
+const userRoutes = require('./routes/user')
+app.use('/api', userRoutes)
 
-// TEST
+
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
