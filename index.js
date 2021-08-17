@@ -24,6 +24,9 @@ app.use('/api', adminRoutes)
 const categoryRoutes = require('./routes/category')
 app.use('/api', categoryRoutes)
 
+const productRoutes = require('./routes/product')
+app.use('/api', productRoutes)
+
 
 
 app.get('/', (req, res) => {
