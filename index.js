@@ -21,6 +21,9 @@ app.use('/api', authRoutes)
 const adminRoutes = require('./routes/admin/auth')
 app.use('/api', adminRoutes)
 
+const categoryRoutes = require('./routes/category')
+app.use('/api', categoryRoutes)
+
 
 
 app.get('/', (req, res) => {
