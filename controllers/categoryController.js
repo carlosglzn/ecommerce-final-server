@@ -1,6 +1,30 @@
 const Category  = require('../models/Category')
 const slugify   = require('slugify')
 
+const createCategories = (categories, parentId = null) => {
+
+    const categoryList = []
+    let category
+    if(parentId == null) {
+        category = categories.filter(cat => cat.parentId == undefined)
+    } else {
+        category = categories.filter(cat => cat.parentId == parentId)
+    }
+
+    for(let cate of category) {
+        categoryList.push({
+            _id: cate._id,
+            name: cate.name,
+            slug: cate.slug,
+            children: createCategories(categories, cate._id)
+        })
+    }
+
+    return categoryList
+
+}
+
+
 exports.addCategory = (req, res) => {
 
     const categoryObj = {
@@ -23,11 +47,17 @@ exports.addCategory = (req, res) => {
 }
 
 exports.getCategories = (req, res) => {
+
     Category.find({})
+
     .exec((error, categories) => {
+
         if(error) return res.status(400).json({ error })
-        if(categories){
-            res.status(200).json({ categories })
+
+        if(categories) {
+
+            const categoryList = createCategories(categories)
+            res.status(200).json({ categoryList })
         }
     })
 }
