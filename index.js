@@ -27,7 +27,8 @@ app.use('/api', categoryRoutes)
 const productRoutes = require('./routes/product')
 app.use('/api', productRoutes)
 
-
+const cartRoutes = require('./routes/cart')
+app.use('/api', cartRoutes)
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
