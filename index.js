@@ -4,7 +4,7 @@ const express       = require('express')
 const app           = express()
 const cors          = require('cors')
 const connectDB     = require('./config/db')
-
+const path          = require('path')
 
 // 2. MIDDLEWARES
 
@@ -13,7 +13,10 @@ connectDB()
 app.use(cors())
 app.use(express.json({extended: true}))
 
+
 // 3. ROUTES
+
+app.use('/public', express.static(path.join(__dirname, 'uploads')))
 
 const authRoutes = require('./routes/auth')
 app.use('/api', authRoutes)
