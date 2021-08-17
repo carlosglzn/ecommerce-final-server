@@ -9,7 +9,7 @@ exports.addCategory = (req, res) => {
     }
 
     if(req.body.parentId) {
-        categoryObj.parentId = req.body.parendId
+        categoryObj.parentId = req.body.parentId
     }
 
     const cat = new Category(categoryObj)
@@ -20,4 +20,14 @@ exports.addCategory = (req, res) => {
         }
     })
 
+}
+
+exports.getCategories = (req, res) => {
+    Category.find({})
+    .exec((error, categories) => {
+        if(error) return res.status(400).json({ error })
+        if(categories){
+            res.status(200).json({ categories })
+        }
+    })
 }
